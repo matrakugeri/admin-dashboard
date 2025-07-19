@@ -1,22 +1,131 @@
-@mixin flex($justify: flex-start, $align: center, $direction: row) {
+.d-flex {
   display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  flex-direction: $direction;
 }
 
-.flex-center {
-  @include flex(center, center);
+.flex-row {
+  flex-direction: row;
 }
 
-.flex-between {
-  @include flex(space-between, center);
+.flex-column {
+  flex-direction: column;
 }
 
-.flex-start {
-  @include flex(flex-start, flex-start);
+.justify-start {
+  justify-content: flex-start;
 }
 
-.flex-column-center {
-  @include flex(center, center, column);
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.mt-4 {
+  margin-top: var(--spacing-4);
+}
+
+.mt-8 {
+  margin-top: var(--spacing-8);
+}
+
+.mt-12 {
+  margin-top: var(--spacing-12);
+}
+
+.mt-16 {
+  margin-top: var(--spacing-16);
+}
+
+.mt-20 {
+  margin-top: var(--spacing-20);
+}
+
+.mt-24 {
+  margin-top: var(--spacing-24);
+}
+
+.mt-32 {
+  margin-top: var(--spacing-32);
+}
+
+.mb-4 {
+  margin-bottom: var(--spacing-4);
+}
+
+.mb-8 {
+  margin-bottom: var(--spacing-8);
+}
+
+.mb-12 {
+  margin-bottom: var(--spacing-12);
+}
+
+.mb-16 {
+  margin-bottom: var(--spacing-16);
+}
+
+.mb-20 {
+  margin-bottom: var(--spacing-20);
+}
+
+.mb-24 {
+  margin-bottom: var(--spacing-24);
+}
+
+.mb-32 {
+  margin-bottom: var(--spacing-32);
+}
+
+.gap-4 {
+  gap: var(--spacing-4);
+}
+
+.gap-8 {
+  gap: var(--spacing-8);
+}
+
+.gap-12 {
+  gap: var(--spacing-12);
+}
+
+.gap-16 {
+  gap: var(--spacing-16);
+}
+
+.gap-20 {
+  gap: var(--spacing-20);
+}
+
+.gap-24 {
+  gap: var(--spacing-24);
+}
+
+.gap-32 {
+  gap: var(--spacing-32);
 }

@@ -5,9 +5,6 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 1000;
 }
 
@@ -17,16 +14,7 @@
   width: 100%;
   max-width: 50rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
   padding: var(--spacing-24);
-}
-
-.dialog__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-16);
 }
 
 .dialog__title {
@@ -47,21 +35,4 @@
   &:hover {
     color: var(--color-primary);
   }
-}
-
-.dialog__body {
-  margin-bottom: var(--spacing-20);
-}
-
-.dialog__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-12);
-}
-
-.dialog__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-12);
-  margin-top: var(--spacing-16);
 }

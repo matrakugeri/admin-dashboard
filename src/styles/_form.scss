@@ -19,14 +19,26 @@
   color: var(--text-secondary);
 }
 
+.form__checkbox-label,
+.form__checkbox {
+  cursor: pointer;
+  user-select: none;
+}
+
 .form__checkbox {
   width: var(--spacing-16);
   height: var(--spacing-16);
-  cursor: pointer;
   accent-color: var(--color-primary);
 }
 
 .form__checkbox-label {
   font-size: var(--font-14);
   color: var(--text-primary);
+}
+
+.form__error {
+  position: absolute;
+  color: var(--color-error);
+  bottom: -14px;
+  font-size: var(--font-12);
 }
