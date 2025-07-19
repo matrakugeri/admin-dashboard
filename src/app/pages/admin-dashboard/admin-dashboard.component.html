@@ -1,0 +1,54 @@
+<app-header></app-header>
+<div class="dashboard">
+  <div class="flex-between">
+    <p class="dashboard__title">Overview & Management Panel</p>
+    <button
+      (click)="onChangeDialogVisibility()"
+      type="button"
+      class="button-primary"
+    >
+      CREATE NEW
+    </button>
+  </div>
+</div>
+
+<app-dialog
+  [title]="'Create User'"
+  [visible]="isVisible()"
+  (onClose)="onChangeDialogVisibility()"
+>
+  <form class="form" dialog-body>
+    <div class="form__group">
+      <label for="firstName" class="form__label">First Name</label>
+      <input type="text" id="firstName" class="form__input" />
+    </div>
+
+    <div class="form__group">
+      <label for="lastName" class="form__label">Last Name</label>
+      <input type="text" id="lastName" class="form__input" />
+    </div>
+
+    <div class="form__group">
+      <label for="gender" class="form__label">Gender</label>
+      <select id="gender" class="form__input">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+
+    <div class="form__group">
+      <label for="job" class="form__label">Job</label>
+      <input type="text" id="job" class="form__input" />
+    </div>
+
+    <div class="form__group">
+      <label for="date" class="form__label">Date</label>
+      <input type="date" id="date" class="form__input" />
+    </div>
+
+    <div class="form__checkbox-group">
+      <input type="checkbox" id="archived" class="form__checkbox" />
+      <label for="archived" class="form__checkbox-label">Archived</label>
+    </div>
+  </form>
+</app-dialog>
