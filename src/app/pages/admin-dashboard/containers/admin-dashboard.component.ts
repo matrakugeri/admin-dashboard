@@ -4,10 +4,11 @@ import { DialogComponent } from '../../../shared/components/dialog/dialog.compon
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsersFormComponent } from '../components/users-form/users-form.component';
 import { User } from '../models/user.model';
+import { TableComponent } from '../../../shared/components/table/table.component';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [DialogComponent, UsersFormComponent],
+  imports: [DialogComponent, UsersFormComponent, TableComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',
 })
@@ -34,7 +35,7 @@ export class AdminDashboardComponent {
     this.mode = mode;
     console.log(this.form.value);
     if (mode === 'edit' && user) {
-      // For edit mode, patch the form with the user's data
+      // For edit mode we patch the form with the user data
       this.form.patchValue(user);
     }
     this.isVisible.set(true);

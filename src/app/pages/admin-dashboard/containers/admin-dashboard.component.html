@@ -1,5 +1,5 @@
 <div class="dashboard">
-  <div class="d-flex justify-between">
+  <div class="d-flex justify-between items-center">
     <p class="dashboard__title">Overview & Management Panel</p>
     <button
       (click)="onOpenDialog('create')"
@@ -10,6 +10,8 @@
     </button>
   </div>
 </div>
+
+<app-table></app-table>
 
 @if(isVisible()) {
 <app-dialog
