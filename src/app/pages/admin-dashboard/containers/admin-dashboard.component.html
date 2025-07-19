@@ -1,0 +1,24 @@
+<div class="dashboard">
+  <div class="d-flex justify-between">
+    <p class="dashboard__title">Overview & Management Panel</p>
+    <button
+      (click)="onOpenDialog('create')"
+      type="button"
+      class="button-primary"
+    >
+      CREATE NEW
+    </button>
+  </div>
+</div>
+
+@if(isVisible()) {
+<app-dialog
+  [title]="mode === 'create' ? 'Create User' : 'Edit User'"
+  (onClose)="onCloseDialog()"
+  (onSave)="onSave()"
+>
+  <div dialog-body>
+    <app-users-form [form]="form"></app-users-form>
+  </div>
+</app-dialog>
+}

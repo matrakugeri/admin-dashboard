@@ -1,7 +1,9 @@
-@if(visible()){
-<div class="dialog-overlay" (click)="close()">
+<div
+  class="dialog-overlay d-flex items-center justify-center"
+  (click)="close()"
+>
   <div class="dialog" (click)="$event.stopPropagation()">
-    <div class="dialog__header">
+    <div class="d-flex justify-between items-center mb-16">
       <h2 class="dialog__title">{{ title() }}</h2>
       <button class="dialog__close" (click)="close()" aria-label="Close">
         &times;
@@ -10,10 +12,9 @@
 
     <ng-content select="[dialog-body]"></ng-content>
 
-    <div class="dialog__footer">
+    <div class="d-flex justify-end gap-12 mt-16">
       <button class="button-secondary" (click)="close()">Cancel</button>
       <button class="button-primary" (click)="save()">Save</button>
     </div>
   </div>
 </div>
-}
