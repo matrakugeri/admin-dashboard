@@ -1,0 +1,22 @@
+@mixin flex($justify: flex-start, $align: center, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+.flex-center {
+  @include flex(center, center);
+}
+
+.flex-between {
+  @include flex(space-between, center);
+}
+
+.flex-start {
+  @include flex(flex-start, flex-start);
+}
+
+.flex-column-center {
+  @include flex(center, center, column);
+}

@@ -1,0 +1,32 @@
+.form__input {
+  padding: var(--spacing-12);
+  border: 1px solid #dcdfe5;
+  border-radius: 6px;
+  background-color: var(--color-white);
+  font-size: var(--font-14);
+  transition: border-color 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(61, 80, 223, 0.15);
+  }
+}
+
+.form__label {
+  font-size: var(--font-14);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form__checkbox {
+  width: var(--spacing-16);
+  height: var(--spacing-16);
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.form__checkbox-label {
+  font-size: var(--font-14);
+  color: var(--text-primary);
+}

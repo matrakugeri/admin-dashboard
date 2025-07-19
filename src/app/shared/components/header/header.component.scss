@@ -1,0 +1,10 @@
+.header {
+  padding: var(--spacing-20) var(--spacing-32);
+  background-color: var(--color-primary);
+  box-shadow: 0 6px 20px rgba(45, 62, 180, 0.3);
+
+  &__title {
+    color: var(--color-white);
+    font-size: var(--font-20);
+  }
+}
