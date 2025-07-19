@@ -1,0 +1,19 @@
+@if(visible()){
+<div class="dialog-overlay" (click)="close()">
+  <div class="dialog" (click)="$event.stopPropagation()">
+    <div class="dialog__header">
+      <h2 class="dialog__title">{{ title() }}</h2>
+      <button class="dialog__close" (click)="close()" aria-label="Close">
+        &times;
+      </button>
+    </div>
+
+    <ng-content select="[dialog-body]"></ng-content>
+
+    <div class="dialog__footer">
+      <button class="button-secondary" (click)="close()">Cancel</button>
+      <button class="button-primary" (click)="save()">Save</button>
+    </div>
+  </div>
+</div>
+}
