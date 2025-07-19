@@ -13,7 +13,6 @@ import {
 })
 export class DialogComponent {
   title = input.required<string>();
-  visible = input<boolean>(false);
 
   onClose = output<void>();
   onSave = output<void>();
