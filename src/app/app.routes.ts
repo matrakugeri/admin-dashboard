@@ -4,9 +4,9 @@ export const routes: Routes = [
   {
     path: 'admin-dashboard',
     loadComponent: () =>
-      import('./pages/admin-dashboard/admin-dashboard.component').then(
-        (m) => m.AdminDashboardComponent
-      ),
+      import(
+        './pages/admin-dashboard/containers/admin-dashboard.component'
+      ).then((m) => m.AdminDashboardComponent),
   },
   {
     path: '',
