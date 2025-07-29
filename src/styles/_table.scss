@@ -1,0 +1,98 @@
+.table__section {
+  max-width: 80rem;
+  margin: var(--spacing-24) auto;
+  border-radius: 8px;
+  box-shadow: 6px 8px 12px rgba(64, 82, 219, 0.15);
+}
+
+.table-head {
+  padding: var(--spacing-16);
+  background-color: var(--color-white);
+  border-radius: 8px 8px 0 0;
+  border: 1px solid #e5e7eb;
+
+  .table-search input {
+    padding: var(--spacing-8) var(--spacing-12);
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    outline: none;
+    font-size: var(--font-14);
+  }
+}
+
+.table-container {
+  background-color: var(--color-white);
+  border: 1px solid #e5e7eb;
+  border-top: none;
+}
+
+.table-container__content {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-14);
+
+  th:not(:last-child),
+  td:not(:last-child) {
+    padding: var(--spacing-12);
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  th:last-child,
+  td:last-child {
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    padding: var(--spacing-12);
+  }
+
+  thead th {
+    background-color: var(--color-primary-light);
+    font-weight: 600;
+
+    input,
+    select {
+      margin-top: var(--spacing-8);
+      width: 100%;
+      padding: var(--spacing-8);
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: var(--font-14);
+
+      &:focus {
+        border-color: var(--color-primary);
+        outline: none;
+      }
+    }
+  }
+
+  tbody tr:hover {
+    background-color: #f9fafb;
+  }
+}
+
+.table__footer {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-16);
+  background-color: var(--color-white);
+  border: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+
+  .pagination-btn {
+    background: transparent;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    margin: 0 0.25rem;
+    cursor: pointer;
+    font-weight: 500;
+
+    &.active {
+      background-color: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+  }
+}
