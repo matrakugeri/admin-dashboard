@@ -10,10 +10,19 @@
     </button>
   </div>
 </div>
-
-<app-table></app-table>
-
-@if(isVisible()) {
+@if(store.loading()) {
+<app-spinner></app-spinner>
+} @if(store.loaded()) {
+<app-users-table
+  [originalRows]="store.data()"
+  (searchChanged)="onSearchByKeyword($event)"
+  (filtersChanged)="onTableFiltersSearch($event)"
+  (onClear)="onClear($event)"
+  (onEdit)="handleUserEdit($event)"
+  (onDelete)="handleUserDelete($event)"
+>
+</app-users-table>
+} @if(isVisible()) {
 <app-dialog
   [title]="mode === 'create' ? 'Create User' : 'Edit User'"
   (onClose)="onCloseDialog()"
@@ -23,4 +32,4 @@
     <app-users-form [form]="form"></app-users-form>
   </div>
 </app-dialog>
-}
+} @if(queryParams$ | async){}
