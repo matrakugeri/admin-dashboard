@@ -5,7 +5,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { NewUser, User } from '../../pages/admin-dashboard/models/user.model';
+import { User } from '../../pages/admin-dashboard/models/user.model';
 import { catchError, EMPTY, pipe, switchMap, tap } from 'rxjs';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { inject } from '@angular/core';
