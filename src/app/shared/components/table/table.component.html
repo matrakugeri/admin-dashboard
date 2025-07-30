@@ -1,58 +1,39 @@
 <section class="table__section">
+  @if(searchPlaceholder()) {
   <div class="table-head d-flex justify-between items-center">
     <div class="table-actions">
-      <button class="button-clear">Clear</button>
+      <button
+        type="button"
+        class="button-clear"
+        (click)="search.reset('', { emitEvent: false }); onClear.emit()"
+      >
+        Clear
+      </button>
     </div>
     <div class="table-search">
-      <input type="text" placeholder="Search keyword" />
+      <input type="text" [formControl]="search" placeholder="Search keyword" />
     </div>
   </div>
+  }
 
   <div class="table-container">
     <table class="table-container__content">
       <thead>
-        <tr>
-          <th>
-            First Name
-            <input type="text" placeholder="Search..." />
-          </th>
-          <th>
-            Last Name
-            <input type="text" placeholder="Search..." />
-          </th>
-          <th>
-            Job
-            <input type="text" placeholder="Search..." />
-          </th>
-          <th>
-            Gender
-            <select id="gender">
-              <option value="null" disabled selected hidden>
-                Select a gender
-              </option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </th>
-          <th>
-            Date
-            <input type="date" />
-          </th>
-          <th>Archived</th>
-        </tr>
+        @if(headerTpl) {
+        <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
+        } @if(filterTpl) {
+        <ng-container *ngTemplateOutlet="filterTpl"></ng-container>
+        }
       </thead>
+
       <tbody>
-        @for(row of originalRows;track row.firstName){
-        <tr>
-          <td>{{ row.firstName }}</td>
-          <td>{{ row.lastName }}</td>
-          <td>{{ row.job }}</td>
-          <td>{{ row.gender }}</td>
-          <td>{{ row.date }}</td>
-          <td>
-            <input type="checkbox" class="form__checkbox" />
-          </td>
-        </tr>
+        @if(originalRows().length > 0) { @for(row of originalRows(); track
+        row.id) {
+        <ng-container
+          *ngTemplateOutlet="bodyTpl; context: { row: row }"
+        ></ng-container>
+        } } @else {
+        <p>No data found.</p>
         }
       </tbody>
     </table>

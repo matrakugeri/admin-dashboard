@@ -1,0 +1,64 @@
+<app-table
+  [originalRows]="originalRows()"
+  (searchChanged)="searchChanged.emit($event)"
+  (onClear)="clear()"
+>
+  <!-- Optional Column Header -->
+  <ng-template #header>
+    <tr>
+      @for(col of columns; track col.header) {
+      <th>{{ col.header }}</th>
+      }
+    </tr>
+  </ng-template>
+
+  <!-- Optional Column Filter -->
+  <ng-template #filter>
+    <tr [formGroup]="form">
+      @for(col of columns; track col.header) {
+      <th>
+        @switch (col.type) { @case ('text') {
+        <input
+          type="text"
+          placeholder="Search..."
+          [formControlName]="col.field"
+        />
+        } @case ('date') {
+        <input type="date" [formControlName]="col.field" />
+        } @case ('select') {
+        <select [formControlName]="col.field">
+          <option disabled selected [value]="''">Select</option>
+          @for(opt of col.options;track opt.label){
+          <option [value]="opt.value">
+            {{ opt.label }}
+          </option>
+          }
+        </select>
+        } @case ('actions') {} }
+      </th>
+      }
+    </tr>
+  </ng-template>
+
+  <!-- Table Body Template -->
+  <ng-template #body let-row="row">
+    <tr>
+      <td>{{ row.firstName }}</td>
+      <td>{{ row.lastName }}</td>
+      <td>{{ row.job }}</td>
+      <td>{{ row.gender }}</td>
+      <td>{{ row.date }}</td>
+      <td>
+        <input
+          class="form__checkbox"
+          type="checkbox"
+          [checked]="row.archived"
+        />
+      </td>
+      <td>
+        <button (click)="editRow(row)" title="Edit">Edit</button>
+        <button (click)="deleteRow(row)" title="Delete">Delete</button>
+      </td>
+    </tr>
+  </ng-template>
+</app-table>
