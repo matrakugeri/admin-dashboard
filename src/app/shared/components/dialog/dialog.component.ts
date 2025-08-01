@@ -15,13 +15,13 @@ export class DialogComponent {
   title = input.required<string>();
 
   onClose = output<void>();
-  onSave = output<void>();
+  onSubmit = output<void>();
 
   close(): void {
     this.onClose.emit();
   }
 
-  save(): void {
-    this.onSave.emit();
+  submit(): void {
+    this.onSubmit.emit();
   }
 }

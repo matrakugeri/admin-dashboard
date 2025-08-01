@@ -15,6 +15,7 @@ import { UsersStore } from '../../../core/services/users.store';
 import { AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { UsersService } from '../../../core/services/users.service';
+import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -25,6 +26,7 @@ import { UsersService } from '../../../core/services/users.service';
     UsersTableComponent,
     AsyncPipe,
     SpinnerComponent,
+    PaginatorComponent,
   ],
   providers: [UsersStore],
   templateUrl: './admin-dashboard.component.html',
@@ -32,11 +34,15 @@ import { UsersService } from '../../../core/services/users.service';
 })
 export class AdminDashboardComponent {
   isVisible = signal<boolean>(false);
-  mode: string = 'create';
+  mode = signal<'edit' | 'create'>('create');
   route = inject(ActivatedRoute);
   store = inject(UsersStore);
   router = inject(Router);
   usersService = inject(UsersService);
+
+  currentUserId = signal<number | null>(null);
+  isDeleteUserDialog = signal<boolean>(false);
+  showToastMessage = signal<boolean>(false);
 
   form = new FormGroup({
     firstName: new FormControl('', {
@@ -70,25 +76,33 @@ export class AdminDashboardComponent {
     })
   );
 
+  onPageChange(event: number) {
+    this.store.load({ start: event, limit: 10 });
+    this.router.navigate([''], {
+      queryParams: {
+        start: event,
+        limit: 10,
+      },
+    });
+  }
+
   onSearchByKeyword(value: string) {
     const keyword = value.trim() || null;
-    console.log(value);
-    console.log(value || null);
-    this.store.load({ keyword });
+    this.store.load({ keyword, start: 0, limit: 10 });
     const currentParams = this.route.snapshot.queryParams;
-    console.log(currentParams);
-    console.log({ ...currentParams, keyword });
     this.router.navigate([''], {
       queryParams: {
         ...currentParams,
+        start: 0,
+        limit: 10,
         keyword,
       },
     });
   }
 
-  onTableFiltersSearch(value: UserFilters) {
+  onTableFiltersSearch(value: Omit<UserFilters, 'keyword'>) {
     console.log(value);
-    this.store.load(value);
+    this.store.load({ ...value, start: 0, limit: 10 });
     const formValues = {
       firstName: value.firstName || null,
       lastName: value.lastName || null,
@@ -98,17 +112,18 @@ export class AdminDashboardComponent {
       archived: value.archived || null,
     };
     const currentParams = this.route.snapshot.queryParams;
-    console.log({ ...currentParams, ...formValues });
     this.router.navigate([''], {
       queryParams: {
         ...currentParams,
         ...formValues,
+        start: 0,
+        limit: 10,
       },
     });
   }
 
   onClear(params: UserFilters) {
-    this.store.load(params);
+    this.store.load({ ...params, start: 0, limit: 10 });
     this.router.navigate([''], {
       queryParams: {},
     });
@@ -116,13 +131,13 @@ export class AdminDashboardComponent {
   }
 
   handleUserEdit(row: User) {
+    this.currentUserId.set(row.id);
     this.onOpenDialog('edit', row);
   }
 
   handleUserDelete(row: User) {
-    // this.usersService.deleteUser(row.id).subscribe({
-    //   next: (res) => console.log(res),
-    // });
+    this.currentUserId.set(row.id);
+    this.isDeleteUserDialog.set(true);
   }
 
   onOpenDialog(mode: 'edit' | 'create', user?: User) {
@@ -134,22 +149,39 @@ export class AdminDashboardComponent {
       date: '',
       job: '',
     });
-    this.mode = mode;
+    this.mode.set(mode);
+    console.log(this.mode(), mode);
     console.log(this.form.value);
-    if (mode === 'edit' && user) {
+    if (this.mode() === 'edit' && user) {
       this.form.patchValue(user);
     }
     this.isVisible.set(true);
   }
 
-  onCloseDialog() {
-    this.isVisible.set(false);
+  onDeleteUser() {
+    const id = this.currentUserId();
+    if (!id) return;
+    this.store.deleteUser(this.currentUserId()!);
+    this.isDeleteUserDialog.set(false);
   }
 
   onSave() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
+    }
+    if (this.mode() === 'create') {
+      this.store.createUser(this.form.getRawValue());
+      this.isVisible.set(false);
+      console.log(this.form.value);
+    } else if (this.mode() === 'edit') {
+      const id = this.currentUserId();
+      if (!id) return;
+      console.log(this.form.value);
+      const updatedUser: User = { id, ...this.form.getRawValue() };
+      console.log(updatedUser);
+      this.store.updateUser(updatedUser);
+      this.isVisible.set(false);
     }
   }
 }

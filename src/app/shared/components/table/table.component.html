@@ -19,10 +19,10 @@
   <div class="table-container">
     <table class="table-container__content">
       <thead>
-        @if(headerTpl) {
-        <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
-        } @if(filterTpl) {
-        <ng-container *ngTemplateOutlet="filterTpl"></ng-container>
+        @if(headerTpl()) {
+        <ng-container *ngTemplateOutlet="headerTpl() ?? null"></ng-container>
+        } @if(filterTpl()) {
+        <ng-container *ngTemplateOutlet="filterTpl() ?? null"></ng-container>
         }
       </thead>
 
@@ -30,20 +30,12 @@
         @if(originalRows().length > 0) { @for(row of originalRows(); track
         row.id) {
         <ng-container
-          *ngTemplateOutlet="bodyTpl; context: { row: row }"
+          *ngTemplateOutlet="bodyTpl() ?? null; context: { row: row }"
         ></ng-container>
         } } @else {
-        <p>No data found.</p>
+        <p class="paragraph__no-data">No data found.</p>
         }
       </tbody>
     </table>
   </div>
-
-  <footer class="table__footer">
-    <button class="pagination-btn">&laquo;</button>
-    <button class="pagination-btn active">1</button>
-    <button class="pagination-btn">2</button>
-    <button class="pagination-btn">3</button>
-    <button class="pagination-btn">&raquo;</button>
-  </footer>
 </section>

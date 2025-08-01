@@ -1,3 +1,6 @@
+@if(store.loading()) {
+<app-spinner></app-spinner>
+}
 <div class="dashboard">
   <div class="d-flex justify-between items-center">
     <p class="dashboard__title">Overview & Management Panel</p>
@@ -10,9 +13,7 @@
     </button>
   </div>
 </div>
-@if(store.loading()) {
-<app-spinner></app-spinner>
-} @if(store.loaded()) {
+@if(store.loaded()) {
 <app-users-table
   [originalRows]="store.data()"
   (searchChanged)="onSearchByKeyword($event)"
@@ -22,14 +23,31 @@
   (onDelete)="handleUserDelete($event)"
 >
 </app-users-table>
-} @if(isVisible()) {
+@if(store.data().length > 1){
+<app-paginator
+  [start]="store.state().params.start"
+  [totalRecords]="store.state().total"
+  [limit]="store.state().params.limit"
+  (pageChange)="onPageChange($event)"
+></app-paginator>
+} } @if(isVisible()) {
 <app-dialog
-  [title]="mode === 'create' ? 'Create User' : 'Edit User'"
-  (onClose)="onCloseDialog()"
-  (onSave)="onSave()"
+  [title]="mode() === 'create' ? 'Create User' : 'Edit User'"
+  (onClose)="isVisible.set(false)"
+  (onSubmit)="onSave()"
 >
   <div dialog-body>
     <app-users-form [form]="form"></app-users-form>
+  </div>
+</app-dialog>
+} @if(isDeleteUserDialog()){
+<app-dialog
+  [title]="'Delete User'"
+  (onClose)="isDeleteUserDialog.set(false)"
+  (onSubmit)="onDeleteUser()"
+>
+  <div dialog-body>
+    <p>Are you sure you want to delete this user ?</p>
   </div>
 </app-dialog>
 } @if(queryParams$ | async){}

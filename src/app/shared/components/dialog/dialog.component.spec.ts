@@ -13,6 +13,11 @@ describe('DialogComponent', () => {
 
     fixture = TestBed.createComponent(DialogComponent);
     component = fixture.componentInstance;
+
+    // Mock title of the dialog
+    let title = 'Create User';
+    fixture.componentRef.setInput('title', title);
+
     fixture.detectChanges();
   });
 
