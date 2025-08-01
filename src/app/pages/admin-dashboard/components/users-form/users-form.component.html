@@ -9,8 +9,15 @@
       class="form__input"
     />
     @if(form().get("firstName")?.invalid && form().get("firstName")?.touched){
-    <p class="form__error">Input is required (atleast 3 chars.)</p>
-    }
+    @if(form().get('firstName')?.hasError('required')){
+    <p class="form__error">First name is required.</p>
+    } @if(form().get('firstName')?.hasError('minlength')){
+    <p class="form__error">
+      Atleast
+      {{ form().get("firstName")?.errors?.['minlength'].requiredLength }}
+      characters needed.
+    </p>
+    } }
   </div>
 
   <div class="relative d-flex flex-column gap-4">
@@ -23,8 +30,16 @@
       class="form__input"
     />
     @if(form().get("lastName")?.invalid && form().get("lastName")?.touched){
-    <p class="form__error">Input is required (atleast 3 chars.)</p>
-    }
+    @if(form().get('lastName')?.hasError('required')){
+    <p class="form__error">Last name is required.</p>
+    } @if(form().get('lastName')?.hasError('minlength')){
+
+    <p class="form__error">
+      Atleast
+      {{ form().get("lastName")?.errors?.['minlength'].requiredLength }}
+      characters needed.
+    </p>
+    } }
   </div>
 
   <div class="relative d-flex flex-column gap-4">

@@ -15,15 +15,15 @@ export class UsersTableComponent {
   originalRows = input<User[]>([]);
   searchChanged = output<string>();
   filtersChanged = output<UserFilters>();
-  onClear = output<any>();
+  onClear = output<UserFilters>();
 
   form = new FormGroup({
-    firstName: new FormControl('', { nonNullable: true }),
-    lastName: new FormControl('', { nonNullable: true }),
-    gender: new FormControl('', { nonNullable: true }),
-    job: new FormControl('', { nonNullable: true }),
-    date: new FormControl('', { nonNullable: true }),
-    archived: new FormControl<boolean | string>('', { nonNullable: true }), // boolean or string so we can keep the select option displayed initially, just a design optimization
+    firstName: new FormControl(null),
+    lastName: new FormControl(null),
+    gender: new FormControl(null),
+    job: new FormControl(null),
+    date: new FormControl(null),
+    archived: new FormControl(null),
   });
 
   columns: TableColumns[] = [
@@ -83,12 +83,12 @@ export class UsersTableComponent {
 
   clear() {
     const reset = {
-      firstName: '',
-      lastName: '',
-      gender: '',
-      job: '',
-      date: '',
-      archived: '',
+      firstName: null,
+      lastName: null,
+      gender: null,
+      job: null,
+      date: null,
+      archived: null,
     };
     this.form.reset(reset, { emitEvent: false });
     this.onClear.emit({ ...reset, keyword: null });

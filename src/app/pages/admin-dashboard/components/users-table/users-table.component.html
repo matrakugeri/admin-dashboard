@@ -27,7 +27,8 @@
         <input type="date" [formControlName]="col.field" />
         } @case ('select') {
         <select [formControlName]="col.field">
-          <option disabled selected [value]="''">Select</option>
+          <option disabled selected [value]="null">Select</option>
+
           @for(opt of col.options;track opt.label){
           <option [value]="opt.value">
             {{ opt.label }}
@@ -49,15 +50,26 @@
       <td>{{ row.gender }}</td>
       <td>{{ row.date }}</td>
       <td>
-        <input
+        <!-- <input
           class="form__checkbox"
           type="checkbox"
           [checked]="row.archived"
-        />
+          disabled
+        /> -->
+        <p
+          class="archived-badge"
+          [class]="row.archived ? 'archived' : 'not-archived'"
+        >
+          {{ row.archived ? "Yes" : "No" }}
+        </p>
       </td>
       <td>
-        <button (click)="editRow(row)" title="Edit">Edit</button>
-        <button (click)="deleteRow(row)" title="Delete">Delete</button>
+        <button (click)="editRow(row)" title="Edit" class="button-edit">
+          Edit
+        </button>
+        <button (click)="deleteRow(row)" title="Delete" class="button-delete">
+          Delete
+        </button>
       </td>
     </tr>
   </ng-template>
