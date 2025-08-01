@@ -55,11 +55,15 @@ export class UsersService {
     return this.http.post(`${environment.apiUrl}/users`, user).pipe(delay(200));
   }
 
-  editUser(user: Omit<User, 'id'>, id: number) {
-    return this.http.put(`${environment.apiUrl}/${id}`, user).pipe(delay(200));
+  editUser(user: User) {
+    return this.http
+      .put(`${environment.apiUrl}/users/${user.id}`, user)
+      .pipe(delay(200));
   }
 
   deleteUser(id: number) {
-    return this.http.delete(`${environment.apiUrl}/${id}`).pipe(delay(200));
+    return this.http
+      .delete(`${environment.apiUrl}/users/${id}`)
+      .pipe(delay(200));
   }
 }

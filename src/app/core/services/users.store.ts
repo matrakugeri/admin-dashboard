@@ -17,10 +17,10 @@ export interface UserParams {
   keyword: string | null;
   firstName: string | null;
   lastName: string | null;
-  gender: 'male' | 'female' | null;
+  gender: string | null;
   job: string | null;
   date: string | null;
-  archived: boolean;
+  archived: boolean | null;
 }
 
 export interface UsersState {
@@ -62,12 +62,14 @@ export const UsersStore = signalStore(
     state: (): UsersState => {
       return getState(store);
     },
+    setLoading(val: boolean) {
+      patchState(store, { loading: val });
+    },
     load: rxMethod<Partial<UserParams>>(
       pipe(
         tap(() => patchState(store, { loading: true })),
         switchMap((params: Partial<UserParams>) => {
           const newParams = { ...getState(store).params, ...params };
-          console.log(newParams);
           return usersService.getUsers(newParams).pipe(
             tap({
               next: (response) => {
@@ -92,6 +94,81 @@ export const UsersStore = signalStore(
             })
           );
         })
+      )
+    ),
+
+    createUser: rxMethod<Omit<User, 'id'>>(
+      pipe(
+        tap(() => patchState(store, { loading: true })),
+        switchMap((createItem) =>
+          usersService.createUser(createItem).pipe(
+            tap(() => {
+              patchState(store, { loading: false });
+            }),
+            catchError((err) => {
+              console.log(err);
+              patchState(store, {
+                error: err,
+                loading: false,
+                loaded: false,
+              });
+              return EMPTY;
+            })
+          )
+        )
+      )
+    ),
+
+    updateUser: rxMethod<User>(
+      pipe(
+        tap(() => patchState(store, { loading: true })),
+        switchMap((updatedItem) =>
+          usersService.editUser(updatedItem).pipe(
+            tap(() => {
+              patchState(store, (state) => ({
+                data: state.data.map((item) =>
+                  item.id === updatedItem.id ? updatedItem : item
+                ),
+                loading: false,
+              }));
+            }),
+            catchError((err) => {
+              console.log(err);
+              patchState(store, {
+                error: err,
+                loading: false,
+                loaded: false,
+              });
+              return EMPTY;
+            })
+          )
+        )
+      )
+    ),
+
+    deleteUser: rxMethod<number>(
+      pipe(
+        tap(() => patchState(store, { loading: true })),
+        switchMap((idToDelete) =>
+          usersService.deleteUser(idToDelete).pipe(
+            tap(() => {
+              patchState(store, (state) => ({
+                data: state.data.filter((item) => item.id !== idToDelete),
+                loading: false,
+                loaded: true,
+              }));
+            }),
+            catchError((err) => {
+              console.log(err);
+              patchState(store, {
+                error: err,
+                loading: false,
+                loaded: false,
+              });
+              return EMPTY;
+            })
+          )
+        )
       )
     ),
   }))
