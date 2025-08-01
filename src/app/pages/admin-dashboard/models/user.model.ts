@@ -9,11 +9,11 @@ export interface User {
 }
 
 export interface UserFilters {
-  keyword: string;
-  firstName: string;
-  lastName: string;
-  gender: 'male' | 'female';
-  job: string;
-  date: string;
-  archived: boolean;
+  keyword: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  gender: string | null;
+  job: string | null;
+  date: string | null;
+  archived: boolean | null;
 }
