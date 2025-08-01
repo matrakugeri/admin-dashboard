@@ -16,6 +16,10 @@ export class UsersTableComponent {
   searchChanged = output<string>();
   filtersChanged = output<UserFilters>();
   onClear = output<UserFilters>();
+  sortChanged = output<{
+    sortField: string | null;
+    sortDirection: 'asc' | 'desc' | null;
+  }>();
 
   form = new FormGroup({
     firstName: new FormControl(null),
@@ -27,9 +31,9 @@ export class UsersTableComponent {
   });
 
   columns: TableColumns[] = [
-    { field: 'firstName', header: 'First Name', type: 'text' },
-    { field: 'lastName', header: 'Last Name', type: 'text' },
-    { field: 'job', header: 'Job', type: 'text' },
+    { field: 'firstName', header: 'First Name', type: 'text', sortable: true },
+    { field: 'lastName', header: 'Last Name', type: 'text', sortable: true },
+    { field: 'job', header: 'Job', type: 'text', sortable: true },
     {
       field: 'gender',
       header: 'Gender',
@@ -43,6 +47,7 @@ export class UsersTableComponent {
       field: 'date',
       header: 'Date',
       type: 'date',
+      sortable: true,
     },
     {
       field: 'archived',
@@ -92,5 +97,14 @@ export class UsersTableComponent {
     };
     this.form.reset(reset, { emitEvent: false });
     this.onClear.emit({ ...reset, keyword: null });
+  }
+
+  onSortChange(sortData: {
+    sortField: string | null;
+    sortDirection: 'asc' | 'desc' | null;
+  }) {
+    console.log(sortData);
+    console.log(sortData, 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    this.sortChanged.emit(sortData);
   }
 }

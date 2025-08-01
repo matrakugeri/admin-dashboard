@@ -1,17 +1,10 @@
 <app-table
   [originalRows]="originalRows()"
+  [columns]="columns"
   (searchChanged)="searchChanged.emit($event)"
   (onClear)="clear()"
+  (sortChanged)="onSortChange($event)"
 >
-  <!-- Optional Column Header -->
-  <ng-template #header>
-    <tr>
-      @for(col of columns; track col.header) {
-      <th>{{ col.header }}</th>
-      }
-    </tr>
-  </ng-template>
-
   <!-- Optional Column Filter -->
   <ng-template #filter>
     <tr [formGroup]="form">

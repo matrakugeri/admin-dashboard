@@ -2,11 +2,7 @@
   @if(searchPlaceholder()) {
   <div class="table-head d-flex justify-between items-center">
     <div class="table-actions">
-      <button
-        type="button"
-        class="button-clear"
-        (click)="search.reset('', { emitEvent: false }); onClear.emit()"
-      >
+      <button type="button" class="button-clear" (click)="clear()">
         Clear
       </button>
     </div>
@@ -19,9 +15,27 @@
   <div class="table-container">
     <table class="table-container__content">
       <thead>
-        @if(headerTpl()) {
-        <ng-container *ngTemplateOutlet="headerTpl() ?? null"></ng-container>
-        } @if(filterTpl()) {
+        <tr>
+          @for(col of columns(); track col.header) {
+          <th [class.sortable]="col.sortable" (click)="toggleSort(col.field)">
+            {{ col.header }}
+            @if(col.sortable){ @if(sortField()===col.field ){
+            <span>
+              @if(sortDirection()==='asc'){
+              <i>&#9650;</i>
+              } @if(sortDirection()==='desc'){
+              <i>&#9660;</i>
+              } @if(!sortDirection()){
+              <i>&#9651;</i>
+              }
+            </span>
+            } @else {
+            <i>&#9651;</i>
+            } }
+          </th>
+          }
+        </tr>
+        @if(filterTpl()) {
         <ng-container *ngTemplateOutlet="filterTpl() ?? null"></ng-container>
         }
       </thead>

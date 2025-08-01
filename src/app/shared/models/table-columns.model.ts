@@ -3,6 +3,7 @@ export interface TableColumns {
   header: string;
   type: string;
   options?: SelectFieldOptions[];
+  sortable?: boolean;
 }
 
 interface SelectFieldOptions {

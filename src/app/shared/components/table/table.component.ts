@@ -4,11 +4,13 @@ import {
   contentChild,
   input,
   output,
+  signal,
   TemplateRef,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { User } from '../../../pages/admin-dashboard/models/user.model';
 import { debounceTime } from 'rxjs';
+import { TableColumns } from '../../models/table-columns.model';
 
 interface BodyContext<T> {
   row: T;
@@ -22,17 +24,25 @@ interface BodyContext<T> {
     `
       .paragraph__no-data {
         padding: var(--spacing-20) 0 var(--spacing-20) var(--spacing-12);
-        font-size: 16px;
+        font-size: var(--font-16);
       }
     `,
   ],
 })
 export class TableComponent {
   originalRows = input<any[]>([]);
+  columns = input<TableColumns[]>([]);
   searchPlaceholder = input<boolean>(true);
   searchChanged = output<string>();
   onClear = output<void>();
   search = new FormControl('');
+  sortChanged = output<{
+    sortDirection: 'asc' | 'desc' | null;
+    sortField: string | null;
+  }>();
+
+  sortField = signal<string | null>(null);
+  sortDirection = signal<'asc' | 'desc' | null>('asc');
 
   readonly headerTpl = contentChild<TemplateRef<void>>('header');
   readonly filterTpl = contentChild<TemplateRef<void>>('filter');
@@ -40,11 +50,40 @@ export class TableComponent {
 
   ngOnInit() {
     if (this.searchPlaceholder()) {
-      if (this.searchPlaceholder()) {
-        this.search.valueChanges
-          .pipe(debounceTime(300))
-          .subscribe((val) => this.searchChanged.emit(val ?? ''));
-      }
+      this.search.valueChanges
+        .pipe(debounceTime(300))
+        .subscribe((val) => this.searchChanged.emit(val ?? ''));
     }
+  }
+
+  toggleSort(field: string) {
+    if (this.sortField() === field) {
+      const next =
+        this.sortDirection() === null
+          ? 'asc'
+          : this.sortDirection() === 'asc'
+          ? 'desc'
+          : null;
+
+      this.sortDirection.set(next);
+
+      if (next === null) {
+        this.sortField.set(null);
+      }
+    } else {
+      this.sortField.set(field);
+      this.sortDirection.set('asc');
+    }
+
+    this.sortChanged.emit({
+      sortField: this.sortField(),
+      sortDirection: this.sortDirection(),
+    });
+  }
+
+  clear() {
+    this.search.reset('', { emitEvent: false });
+    this.sortDirection.set(null);
+    this.onClear.emit();
   }
 }

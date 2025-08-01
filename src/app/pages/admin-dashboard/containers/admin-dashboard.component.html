@@ -21,6 +21,7 @@
   (onClear)="onClear($event)"
   (onEdit)="handleUserEdit($event)"
   (onDelete)="handleUserDelete($event)"
+  (sortChanged)="onSort($event)"
 >
 </app-users-table>
 @if(store.data().length > 1){

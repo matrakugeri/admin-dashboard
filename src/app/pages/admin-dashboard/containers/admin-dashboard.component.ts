@@ -184,4 +184,19 @@ export class AdminDashboardComponent {
       this.isVisible.set(false);
     }
   }
+
+  onSort(sortData: {
+    sortField: string | null;
+    sortDirection: 'asc' | 'desc' | null;
+  }) {
+    console.log('IWANT TO FUCKIGN SORTTTTTTTTT');
+    this.store.load(sortData);
+    const currentParams = this.route.snapshot.queryParams;
+    this.router.navigate([''], {
+      queryParams: {
+        ...currentParams,
+        ...sortData,
+      },
+    });
+  }
 }

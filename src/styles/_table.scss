@@ -48,7 +48,6 @@
   thead th {
     background-color: var(--color-primary-light);
     font-weight: 600;
-
     input,
     select {
       margin-top: var(--spacing-8);
@@ -70,9 +69,6 @@
   }
 }
 
-// .table__footer {
-//   display: flex;
-//   justify-content: center;
-//   background-color: var(--color-white);
-//   margin-bottom: var(--spacing-24);
-// }
+.sortable {
+  cursor: pointer;
+}
