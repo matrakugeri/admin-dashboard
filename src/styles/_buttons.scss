@@ -68,3 +68,27 @@
   transition: background-color 0.2s ease, box-shadow 0.2s ease,
     transform 0.2s ease, outline 0.2s ease;
 }
+
+.button-delete {
+  background: #f57964;
+  border: 2px solid var(--color-gray-light);
+  color: #ffff;
+  padding: var(--spacing-8) var(--spacing-8);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease, outline 0.2s ease;
+}
+
+.button-edit {
+  background: #4892d8;
+  border: 2px solid var(--color-gray-light);
+  color: #ffff;
+  padding: var(--spacing-8) var(--spacing-8);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease, outline 0.2s ease;
+}

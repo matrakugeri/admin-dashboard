@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
-  ContentChild,
+  contentChild,
   input,
   output,
   TemplateRef,
@@ -18,22 +18,25 @@ interface BodyContext<T> {
   selector: 'app-table',
   imports: [ReactiveFormsModule, NgTemplateOutlet],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
+  styles: [
+    `
+      .paragraph__no-data {
+        padding: var(--spacing-20) 0 var(--spacing-20) var(--spacing-12);
+        font-size: 16px;
+      }
+    `,
+  ],
 })
 export class TableComponent {
   originalRows = input<any[]>([]);
   searchPlaceholder = input<boolean>(true);
   searchChanged = output<string>();
   onClear = output<void>();
-
   search = new FormControl('');
 
-  // Templates
-  @ContentChild('header') headerTpl?: TemplateRef<void>;
-  @ContentChild('filter') filterTpl?: TemplateRef<void>;
-  @ContentChild('body', { static: false }) bodyTpl!: TemplateRef<
-    BodyContext<User>
-  >;
+  readonly headerTpl = contentChild<TemplateRef<void>>('header');
+  readonly filterTpl = contentChild<TemplateRef<void>>('filter');
+  readonly bodyTpl = contentChild<TemplateRef<BodyContext<User>>>('body');
 
   ngOnInit() {
     if (this.searchPlaceholder()) {
