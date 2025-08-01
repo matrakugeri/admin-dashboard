@@ -47,6 +47,12 @@ export class UsersService {
     if (params.archived) {
       httpParams = httpParams.set('archived', params.archived);
     }
+    if (params.sortDirection) {
+      httpParams = httpParams.set('sortDirection', params.sortDirection);
+    }
+    if (params.sortField) {
+      httpParams = httpParams.set('sortField', params.sortField);
+    }
     console.log(httpParams);
     return httpParams;
   }

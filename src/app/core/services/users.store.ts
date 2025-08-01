@@ -21,6 +21,8 @@ export interface UserParams {
   job: string | null;
   date: string | null;
   archived: boolean | null;
+  sortDirection: 'asc' | 'desc' | null;
+  sortField: string | null;
 }
 
 export interface UsersState {
@@ -53,6 +55,8 @@ const initialState: UsersState = {
     job: null,
     date: null,
     archived: false,
+    sortDirection: null,
+    sortField: null,
   },
 };
 export const UsersStore = signalStore(
