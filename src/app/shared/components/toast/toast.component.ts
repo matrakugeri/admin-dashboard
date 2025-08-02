@@ -18,7 +18,7 @@ import { ToastService } from '../../../core/services/toast.service';
         right: 20px;
         background-color: #333;
         color: white;
-        padding: 12px 20px;
+        padding: var(--spacing-12) var(--spacing-20);
         border-radius: 4px;
         opacity: 0.9;
         z-index: 9999;

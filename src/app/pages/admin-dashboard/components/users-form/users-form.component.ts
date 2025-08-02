@@ -1,6 +1,5 @@
 import { Component, effect, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-users-form',
