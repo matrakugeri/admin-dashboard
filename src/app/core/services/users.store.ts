@@ -10,6 +10,8 @@ import { catchError, EMPTY, pipe, switchMap, tap } from 'rxjs';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { inject } from '@angular/core';
 import { UsersService } from './users.service';
+import { ToastService } from './toast.service';
+import { ToastActionsMessages } from '../../shared/models/toast-actions-messages.enum';
 
 export interface UserParams {
   limit: number;
@@ -62,118 +64,136 @@ const initialState: UsersState = {
 export const UsersStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withMethods((store, usersService = inject(UsersService)) => ({
-    state: (): UsersState => {
-      return getState(store);
-    },
-    setLoading(val: boolean) {
-      patchState(store, { loading: val });
-    },
-    load: rxMethod<Partial<UserParams>>(
-      pipe(
-        tap(() => patchState(store, { loading: true })),
-        switchMap((params: Partial<UserParams>) => {
-          const newParams = { ...getState(store).params, ...params };
-          return usersService.getUsers(newParams).pipe(
-            tap({
-              next: (response) => {
+  withMethods(
+    (
+      store,
+      usersService = inject(UsersService),
+      toastService = inject(ToastService)
+    ) => ({
+      state: (): UsersState => {
+        return getState(store);
+      },
+      setLoading(val: boolean) {
+        patchState(store, { loading: val });
+      },
+      load: rxMethod<Partial<UserParams>>(
+        pipe(
+          tap(() => patchState(store, { loading: true })),
+          switchMap((params: Partial<UserParams>) => {
+            const newParams = { ...getState(store).params, ...params };
+            return usersService.getUsers(newParams).pipe(
+              tap({
+                next: (response) => {
+                  patchState(store, {
+                    data: response.data,
+                    total: response.total,
+                    loaded: true,
+                    loading: false,
+                    error: null,
+                    params: newParams,
+                  });
+                },
+              }),
+              catchError((err) => {
+                console.log(err);
                 patchState(store, {
-                  data: response.data,
-                  total: response.total,
-                  loaded: true,
+                  error: err,
                   loading: false,
-                  error: null,
-                  params: newParams,
+                  loaded: false,
                 });
-              },
-            }),
-            catchError((err) => {
-              console.log(err);
-              patchState(store, {
-                error: err,
-                loading: false,
-                loaded: false,
-              });
-              return EMPTY;
-            })
-          );
-        })
-      )
-    ),
+                return EMPTY;
+              })
+            );
+          })
+        )
+      ),
 
-    createUser: rxMethod<Omit<User, 'id'>>(
-      pipe(
-        tap(() => patchState(store, { loading: true })),
-        switchMap((createItem) =>
-          usersService.createUser(createItem).pipe(
-            tap(() => {
-              patchState(store, { loading: false });
-            }),
-            catchError((err) => {
-              console.log(err);
-              patchState(store, {
-                error: err,
-                loading: false,
-                loaded: false,
-              });
-              return EMPTY;
-            })
+      createUser: rxMethod<Omit<User, 'id'>>(
+        pipe(
+          tap(() => patchState(store, { loading: true })),
+          switchMap((createItem) =>
+            usersService.createUser(createItem).pipe(
+              tap(() => {
+                patchState(store, { loading: false });
+                toastService.show({
+                  type: 'success',
+                  message: ToastActionsMessages.CREATE_SUCCESS,
+                });
+              }),
+              catchError((err) => {
+                console.log(err);
+                patchState(store, {
+                  error: err,
+                  loading: false,
+                  loaded: false,
+                });
+                return EMPTY;
+              })
+            )
           )
         )
-      )
-    ),
+      ),
 
-    updateUser: rxMethod<User>(
-      pipe(
-        tap(() => patchState(store, { loading: true })),
-        switchMap((updatedItem) =>
-          usersService.editUser(updatedItem).pipe(
-            tap(() => {
-              patchState(store, (state) => ({
-                data: state.data.map((item) =>
-                  item.id === updatedItem.id ? updatedItem : item
-                ),
-                loading: false,
-              }));
-            }),
-            catchError((err) => {
-              console.log(err);
-              patchState(store, {
-                error: err,
-                loading: false,
-                loaded: false,
-              });
-              return EMPTY;
-            })
+      updateUser: rxMethod<User>(
+        pipe(
+          tap(() => patchState(store, { loading: true })),
+          switchMap((updatedItem) =>
+            usersService.editUser(updatedItem).pipe(
+              tap(() => {
+                patchState(store, (state) => ({
+                  data: state.data.map((item) =>
+                    item.id === updatedItem.id ? updatedItem : item
+                  ),
+                  loading: false,
+                }));
+                toastService.show({
+                  type: 'success',
+                  message: ToastActionsMessages.UPDATE_SUCCESS,
+                });
+              }),
+              catchError((err) => {
+                console.log(err);
+                patchState(store, {
+                  error: err,
+                  loading: false,
+                  loaded: false,
+                });
+                return EMPTY;
+              })
+            )
           )
         )
-      )
-    ),
+      ),
 
-    deleteUser: rxMethod<number>(
-      pipe(
-        tap(() => patchState(store, { loading: true })),
-        switchMap((idToDelete) =>
-          usersService.deleteUser(idToDelete).pipe(
-            tap(() => {
-              patchState(store, (state) => ({
-                data: state.data.filter((item) => item.id !== idToDelete),
-                loading: false,
-                loaded: true,
-              }));
-            }),
-            catchError((err) => {
-              console.log(err);
-              patchState(store, {
-                error: err,
-                loading: false,
-                loaded: false,
-              });
-              return EMPTY;
-            })
+      deleteUser: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { loading: true })),
+          switchMap((idToDelete) =>
+            usersService.deleteUser(idToDelete).pipe(
+              tap(() => {
+                patchState(store, (state) => ({
+                  data: state.data.filter((item) => item.id !== idToDelete),
+                  loading: false,
+                  loaded: true,
+                }));
+                toastService.show({
+                  type: 'success',
+                  message: ToastActionsMessages.DELETE_SUCCESS,
+                });
+              }),
+              catchError((err) => {
+                console.log(err);
+                patchState(store, {
+                  error: err,
+                  loading: false,
+                  loaded: false,
+                });
+                return EMPTY;
+              })
+            )
           )
         )
-      )
-    ),
-  }))
+      ),
+    })
+  )
 );

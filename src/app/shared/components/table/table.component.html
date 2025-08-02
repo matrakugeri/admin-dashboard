@@ -22,16 +22,17 @@
             @if(col.sortable){ @if(sortField()===col.field ){
             <span>
               @if(sortDirection()==='asc'){
-              <i>&#9650;</i>
+              <span class="material-symbols-outlined icon"> arrow_upward </span>
               } @if(sortDirection()==='desc'){
-              <i>&#9660;</i>
+              <span class="material-symbols-outlined icon">
+                arrow_downward
+              </span>
               } @if(!sortDirection()){
-              <i>&#9651;</i>
+              <span class="material-symbols-outlined icon"> sort </span>
               }
             </span>
             } @else {
-            <i>&#9651;</i>
-            } }
+            <span class="material-symbols-outlined icon"> sort </span> } }
           </th>
           }
         </tr>
