@@ -111,27 +111,6 @@ describe('AdminDashboardComponent', () => {
     expect(component.isVisible()).toBe(true);
   });
 
-  // it('should close the dialog if the form is valid in create mode', () => {
-  //   // Set the component to 'create' mode
-  //   component.mode.set('create');
-
-  //   // Set the form to a valid state
-  //   component.form.controls.firstName.setValue('John');
-  //   component.form.controls.lastName.setValue('Doe');
-  //   component.form.controls.gender.setValue('Male');
-  //   component.form.controls.job.setValue('Developer');
-  //   component.form.controls.date.setValue('2023-01-01');
-  //   component.form.controls.archived.setValue(false);
-
-  //   // Make sure the dialog is open before the test
-  //   component.isVisible.set(true);
-
-  //   component.onSave();
-
-  //   // Make sure that the dialog is closed
-  //   expect(component.isVisible()).toBe(false);
-  // });
-
   it('should return without closing the dialog if in edit mode but currentUserId is null', () => {
     // Set the component to 'edit' mode but with a null user ID
     component.mode.set('edit');

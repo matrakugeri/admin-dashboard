@@ -24,7 +24,6 @@ describe('UsersFormComponent', () => {
       archived: new FormControl(false, { nonNullable: true }),
     });
     fixture.componentRef.setInput('form', form);
-    // e.g. setInput('myInput', 'test');
     fixture.detectChanges();
   });
 
