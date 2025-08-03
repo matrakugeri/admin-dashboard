@@ -95,6 +95,10 @@ export const UsersStore = signalStore(
                 },
               }),
               catchError((err) => {
+                toastService.show({
+                  type: 'error',
+                  message: ToastActionsMessages.ACTION_ERROR,
+                });
                 console.log(err);
                 patchState(store, {
                   error: err,
