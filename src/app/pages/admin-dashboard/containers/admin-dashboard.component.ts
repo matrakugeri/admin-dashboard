@@ -77,9 +77,11 @@ export class AdminDashboardComponent {
   );
 
   onPageChange(event: number) {
-    this.store.load({ start: event, limit: 10 });
+    const currentParams = this.route.snapshot.queryParams;
+    this.store.load({ ...currentParams, start: event, limit: 10 });
     this.router.navigate([''], {
       queryParams: {
+        ...currentParams,
         start: event,
         limit: 10,
       },
