@@ -17,7 +17,10 @@
       <thead>
         <tr>
           @for(col of columns(); track col.header) {
-          <th [class.sortable]="col.sortable" (click)="toggleSort(col.field)">
+          <th
+            [class.sortable]="col.sortable"
+            (click)="col.sortable ? toggleSort(col.field) : null"
+          >
             {{ col.header }}
             @if(col.sortable){ @if(sortField()===col.field ){
             <span>
