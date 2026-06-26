@@ -1,9 +1,10 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { User, UserFilters } from '../../models/user.model';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { TableColumns } from '../../../../shared/models/table-columns.model';
 import { debounceTime } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users-table',
@@ -12,6 +13,7 @@ import { debounceTime } from 'rxjs';
   styleUrl: './users-table.component.scss',
 })
 export class UsersTableComponent {
+  activatedRoute = inject(ActivatedRoute);
   originalRows = input<User[]>([]);
   searchChanged = output<string>();
   filtersChanged = output<UserFilters>();
